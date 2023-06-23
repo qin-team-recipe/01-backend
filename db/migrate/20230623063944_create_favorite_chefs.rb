@@ -5,6 +5,8 @@ class CreateFavoriteChefs < ActiveRecord::Migration[7.0]
       t.references :chef, null: false, foreign_key: true
 
       t.timestamps
+
+      add_index :favorite_chefs, [:user_id, :chef_id], unique: true
     end
   end
 end
