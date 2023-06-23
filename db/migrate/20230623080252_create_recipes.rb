@@ -5,7 +5,7 @@ class CreateRecipes < ActiveRecord::Migration[7.0]
       t.text :description
       t.string :thumbnail
       t.integer :serving_size
-      t.boolean :is_draft
+      t.boolean :is_draft, default: false, null: false
       t.references :author, polymorphic: true, null: false
 
       t.timestamps

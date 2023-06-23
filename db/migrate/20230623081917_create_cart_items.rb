@@ -4,7 +4,7 @@ class CreateCartItems < ActiveRecord::Migration[7.0]
       t.references :cart_list, null: false, foreign_key: true
       t.string :name
       t.string :memo
-      t.boolean :is_checked
+      t.boolean :is_checked, default: false, null: false
 
       t.timestamps
     end
