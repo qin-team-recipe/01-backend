@@ -5,8 +5,8 @@ class CreateFavoriteRecipes < ActiveRecord::Migration[7.0]
       t.references :recipe, null: false, foreign_key: true
 
       t.timestamps
-
-      add_index :favorite_recipes, [:user_id, :recipe_id], unique: true
     end
+
+    add_index :favorite_recipes, [:user_id, :recipe_id], unique: true
   end
 end

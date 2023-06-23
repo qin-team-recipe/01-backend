@@ -16,9 +16,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_23_081917) do
 
   create_table "cart_items", force: :cascade do |t|
     t.bigint "cart_list_id", null: false
-    t.string "name"
+    t.string "name", null: false
     t.string "memo"
-    t.boolean "is_checked"
+    t.boolean "is_checked", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["cart_list_id"], name: "index_cart_items_on_cart_list_id"
@@ -45,9 +45,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_23_081917) do
 
   create_table "external_links", force: :cascade do |t|
     t.bigint "chef_id", null: false
-    t.string "title"
-    t.string "url"
-    t.string "type"
+    t.string "title", null: false
+    t.string "url", null: false
+    t.string "type", null: false
     t.integer "follower_count"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -60,6 +60,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_23_081917) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["chef_id"], name: "index_favorite_chefs_on_chef_id"
+    t.index ["user_id", "chef_id"], name: "index_favorite_chefs_on_user_id_and_chef_id", unique: true
     t.index ["user_id"], name: "index_favorite_chefs_on_user_id"
   end
 
@@ -69,12 +70,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_23_081917) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["recipe_id"], name: "index_favorite_recipes_on_recipe_id"
+    t.index ["user_id", "recipe_id"], name: "index_favorite_recipes_on_user_id_and_recipe_id", unique: true
     t.index ["user_id"], name: "index_favorite_recipes_on_user_id"
   end
 
   create_table "materials", force: :cascade do |t|
     t.bigint "recipe_id", null: false
-    t.string "name"
+    t.string "name", null: false
     t.string "memo"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -86,7 +88,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_23_081917) do
     t.text "description"
     t.string "thumbnail"
     t.integer "serving_size"
-    t.boolean "is_draft"
+    t.boolean "is_draft", default: false, null: false
     t.string "author_type", null: false
     t.bigint "author_id", null: false
     t.datetime "created_at", null: false
@@ -96,7 +98,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_23_081917) do
 
   create_table "steps", force: :cascade do |t|
     t.bigint "recipe_id", null: false
-    t.string "title"
+    t.string "title", null: false
     t.string "memo"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
