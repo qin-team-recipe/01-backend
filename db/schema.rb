@@ -27,8 +27,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_23_081917) do
   create_table "cart_lists", force: :cascade do |t|
     t.bigint "recipe_id", null: false
     t.bigint "user_id", null: false
-    t.string "name"
-    t.integer "position"
+    t.string "name", null: false
+    t.integer "position", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["recipe_id"], name: "index_cart_lists_on_recipe_id"
