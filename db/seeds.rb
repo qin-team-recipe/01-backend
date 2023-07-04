@@ -32,8 +32,8 @@ Faker::Config.locale = :ja
     author_id = author_type == 'User' ? user.id : chef.id
 
     recipe = Recipe.create!(
-      name: Faker::Food.dish,
-      description: Faker::Food.description,
+      name: Faker::Lorem.sentence(word_count: 3),
+      description: Faker::Lorem.paragraph(sentence_count: 3),
       thumbnail: Faker::Avatar.image(slug: "my-own-slug", size: "50x50"),
       serving_size: rand(1..5),
       is_draft: [true, false].sample,
@@ -43,14 +43,14 @@ Faker::Config.locale = :ja
 
     material = Material.create!(
       recipe_id: recipe.id,
-      name: Faker::Food.ingredient,
-      memo: Faker::Food.description
+      name: Faker::Lorem.sentence(word_count: 3),
+      memo: Faker::Lorem.paragraph(sentence_count: 3)
     )
 
     step = Step.create!(
       recipe_id: recipe.id,
       title: Faker::Lorem.sentence(word_count: 3),
-      memo: Faker::Food.description
+      memo: Faker::Lorem.paragraph(sentence_count: 3)
     )
 
     favorite_recipe = FavoriteRecipe.create!(
@@ -61,14 +61,14 @@ Faker::Config.locale = :ja
     cart_list = CartList.create!(
       recipe_id: recipe.id,
       user_id: user.id,
-      name: Faker::Food.dish,
+      name: Faker::Lorem.sentence(word_count: 3),
       position: rand(1..10)
     )
 
     cart_item = CartItem.create!(
       cart_list_id: cart_list.id,
-      name: Faker::Food.ingredient,
-      memo: Faker::Food.description,
+      name: Faker::Lorem.sentence(word_count: 3),
+      memo: Faker::Lorem.paragraph(sentence_count: 3),
       is_checked: [true, false].sample
     )
   end
