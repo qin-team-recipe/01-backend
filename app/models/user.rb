@@ -5,5 +5,5 @@ class User < ApplicationRecord
   has_many :chefs, through: :favorite_chefs
   has_many :favorite_recipes, dependent: :destroy
   has_many :cart_lists, dependent: :destroy
-  has_many :recipes, through: :favorite_recipes
+  has_many :favorited_recipes, through: :favorite_recipes, source: :recipe
 end
