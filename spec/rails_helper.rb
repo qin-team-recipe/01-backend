@@ -63,4 +63,7 @@ RSpec.configure do |config|
 
   # support/helper/request_helper.rbを使用可能にする
   config.include(RequestHelpers, :type => :request)
+
+  # FactoryBotのシンタックスを省略できるようにする
+  config.include FactoryBot::Syntax::Methods
 end
