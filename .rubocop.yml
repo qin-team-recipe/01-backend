@@ -3,6 +3,7 @@ inherit_from: .rubocop_todo.yml
 require:
   - rubocop-performance
   - rubocop-rails
+  - rubocop-rspec
 
 AllCops:
   SuggestExtensions: false
@@ -65,4 +66,19 @@ Rails/I18nLocaleTexts:
   Enabled: false
 
 Rails/LexicallyScopedActionFilter:
+  Enabled: false
+
+Lint/EmptyBlock:
+  Enabled: false
+
+RSpec/EmptyExampleGroup:
+  Enabled: false
+
+RSpec/Rails/InferredSpecType:
+  Enabled: false
+
+Lint/RedundantDirGlobSort:
+  Enabled: false
+
+Style/RedundantInterpolation:
   Enabled: false
