@@ -67,18 +67,3 @@ Rails/I18nLocaleTexts:
 
 Rails/LexicallyScopedActionFilter:
   Enabled: false
-
-Lint/EmptyBlock:
-  Enabled: false
-
-RSpec/EmptyExampleGroup:
-  Enabled: false
-
-RSpec/Rails/InferredSpecType:
-  Enabled: false
-
-Lint/RedundantDirGlobSort:
-  Enabled: false
-
-Style/RedundantInterpolation:
-  Enabled: false
