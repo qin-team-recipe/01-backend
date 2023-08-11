@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_11_025412) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_11_031213) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -79,11 +79,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_11_025412) do
     t.string "thumbnail"
     t.integer "serving_size"
     t.boolean "is_draft", default: false, null: false
-    t.string "author_type", null: false
-    t.bigint "author_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["author_type", "author_id"], name: "index_recipes_on_author"
+    t.boolean "is_public", default: true
+    t.index ["user_id"], name: "index_recipes_on_user_id"
   end
 
   create_table "steps", force: :cascade do |t|
@@ -127,6 +127,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_11_025412) do
   add_foreign_key "favorite_recipes", "users"
   add_foreign_key "materials", "recipes"
   add_foreign_key "recipe_external_links", "recipes"
+  add_foreign_key "recipes", "users"
   add_foreign_key "steps", "recipes"
   add_foreign_key "user_external_links", "users"
 end
