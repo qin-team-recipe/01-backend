@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_30_075428) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_06_072708) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -118,8 +118,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_30_075428) do
   add_foreign_key "cart_items", "cart_lists"
   add_foreign_key "cart_lists", "recipes"
   add_foreign_key "cart_lists", "users"
-  add_foreign_key "external_links", "chefs"
-  add_foreign_key "favorite_chefs", "chefs"
   add_foreign_key "favorite_chefs", "users"
   add_foreign_key "favorite_recipes", "recipes"
   add_foreign_key "favorite_recipes", "users"
