@@ -10,17 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_13_070014) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_13_070802) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "cart_items", force: :cascade do |t|
     t.bigint "cart_list_id", null: false
     t.string "name", null: false
-    t.string "memo"
     t.boolean "is_checked", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "position"
     t.index ["cart_list_id"], name: "index_cart_items_on_cart_list_id"
   end
 
@@ -34,16 +34,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_13_070014) do
     t.boolean "own_notes"
     t.index ["recipe_id"], name: "index_cart_lists_on_recipe_id"
     t.index ["user_id"], name: "index_cart_lists_on_user_id"
-  end
-
-  create_table "favorite_chefs", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "chef_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["chef_id"], name: "index_favorite_chefs_on_chef_id"
-    t.index ["user_id", "chef_id"], name: "index_favorite_chefs_on_user_id_and_chef_id", unique: true
-    t.index ["user_id"], name: "index_favorite_chefs_on_user_id"
   end
 
   create_table "favorite_recipes", force: :cascade do |t|
@@ -87,6 +77,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_13_070014) do
     t.index ["user_id"], name: "index_recipes_on_user_id"
   end
 
+  create_table "relationships", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "follower_id"
+    t.bigint "followed_id"
+    t.index ["followed_id"], name: "index_relationships_on_followed_id"
+    t.index ["follower_id"], name: "index_relationships_on_follower_id"
+  end
+
   create_table "steps", force: :cascade do |t|
     t.bigint "recipe_id", null: false
     t.text "description", null: false
@@ -123,12 +122,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_13_070014) do
   add_foreign_key "cart_items", "cart_lists"
   add_foreign_key "cart_lists", "recipes"
   add_foreign_key "cart_lists", "users"
-  add_foreign_key "favorite_chefs", "users"
   add_foreign_key "favorite_recipes", "recipes"
   add_foreign_key "favorite_recipes", "users"
   add_foreign_key "materials", "recipes"
   add_foreign_key "recipe_external_links", "recipes"
   add_foreign_key "recipes", "users"
+  add_foreign_key "relationships", "users", column: "followed_id"
+  add_foreign_key "relationships", "users", column: "follower_id"
   add_foreign_key "steps", "recipes"
   add_foreign_key "user_external_links", "users"
 end
