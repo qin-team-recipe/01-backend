@@ -1,8 +1,9 @@
 class Recipe < ApplicationRecord
-  belongs_to :author, polymorphic: true, dependent: :destroy
   has_many :favorite_recipes, dependent: :destroy
-  has_many :users, through: :favorite_recipes
+  has_many :favoriters, through: :favorite_recipes, source: :user
+  belongs_to :user
   has_many :steps, dependent: :destroy
   has_many :materials, dependent: :destroy
-  has_one :cart_lists, dependent: :destroy
+  has_one :cart_list, dependent: :destroy
+  has_many :recipe_external_links, dependent: :destroy
 end
