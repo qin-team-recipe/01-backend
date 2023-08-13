@@ -5,12 +5,8 @@ class User < ApplicationRecord
   has_many :cart_lists, dependent: :destroy
   has_many :favorited_recipes, through: :favorite_recipes, source: :recipe
   has_many :user_external_links, dependent: :destroy
-
-  # ユーザーがフォローしている人々
-  has_many :active_relationships, class_name: 'Relationship', foreign_key: 'follower_id', dependent: :destroy
+  has_many :active_relationships, class_name: 'Relationship', foreign_key: 'follower_id', dependent: :destroy, inverse_of: :follower
   has_many :following, through: :active_relationships, source: :followed
-
-  # ユーザーをフォローしている人々
-  has_many :passive_relationships, class_name: 'Relationship', foreign_key: 'followed_id', dependent: :destroy
+  has_many :passive_relationships, class_name: 'Relationship', foreign_key: 'followed_id', dependent: :destroy, inverse_of: :followed
   has_many :followers, through: :passive_relationships, source: :follower
 end
