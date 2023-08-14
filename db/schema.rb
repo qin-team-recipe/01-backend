@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_13_070802) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_13_234121) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -20,7 +20,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_13_070802) do
     t.boolean "is_checked", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "position"
+    t.integer "position", null: false
     t.index ["cart_list_id"], name: "index_cart_items_on_cart_list_id"
   end
 
@@ -31,7 +31,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_13_070802) do
     t.integer "position", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "own_notes"
+    t.boolean "own_notes", null: false
     t.index ["recipe_id"], name: "index_cart_lists_on_recipe_id"
     t.index ["user_id"], name: "index_cart_lists_on_user_id"
   end
@@ -51,16 +51,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_13_070802) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "position"
+    t.integer "position", null: false
     t.index ["recipe_id"], name: "index_materials_on_recipe_id"
   end
 
   create_table "recipe_external_links", force: :cascade do |t|
     t.bigint "recipe_id", null: false
-    t.string "url"
+    t.string "url", null: false
     t.string "type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["recipe_id", "type"], name: "index_recipe_external_links_on_recipe_id_and_type", unique: true
+    t.index ["recipe_id", "url"], name: "index_recipe_external_links_on_recipe_id_and_url", unique: true
     t.index ["recipe_id"], name: "index_recipe_external_links_on_recipe_id"
   end
 
@@ -68,21 +70,22 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_13_070802) do
     t.string "name", null: false
     t.text "description"
     t.string "thumbnail"
-    t.integer "serving_size"
+    t.integer "serving_size", null: false
     t.boolean "is_draft", default: false, null: false
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "is_public", default: true
+    t.boolean "is_public", default: true, null: false
     t.index ["user_id"], name: "index_recipes_on_user_id"
   end
 
   create_table "relationships", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "follower_id"
-    t.bigint "followed_id"
+    t.bigint "follower_id", null: false
+    t.bigint "followed_id", null: false
     t.index ["followed_id"], name: "index_relationships_on_followed_id"
+    t.index ["follower_id", "followed_id"], name: "index_relationships_on_follower_id_and_followed_id", unique: true
     t.index ["follower_id"], name: "index_relationships_on_follower_id"
   end
 
@@ -91,16 +94,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_13_070802) do
     t.text "description", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "position"
+    t.integer "position", null: false
     t.index ["recipe_id"], name: "index_steps_on_recipe_id"
   end
 
   create_table "user_external_links", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.string "url"
+    t.string "url", null: false
     t.string "type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id", "type"], name: "index_user_external_links_on_user_id_and_type", unique: true
+    t.index ["user_id", "url"], name: "index_user_external_links_on_user_id_and_url", unique: true
     t.index ["user_id"], name: "index_user_external_links_on_user_id"
   end
 
@@ -112,10 +117,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_13_070802) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "description"
-    t.string "domain"
-    t.string "role"
+    t.string "domain", null: false
+    t.string "type", null: false
     t.string "sns_id"
     t.string "thumnail"
+    t.index ["domain"], name: "index_users_on_domain", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
