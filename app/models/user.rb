@@ -20,7 +20,8 @@ class User < ApplicationRecord
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP, message: "must be a valid email format" }
   validates :type, inclusion: { in: ['user', 'chef'] }
 
-  # descriptionの文字数制限 (例: 最大300文字まで)
-  validates :description, length: { maximum: 300 }
+  # 名前系：100文字以内、説明系：256文字以内で一旦設定
+  validates :name, length: { maximum: 100 }
+  validates :description, length: { maximum: 256 }
 
 end
