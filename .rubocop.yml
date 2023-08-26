@@ -67,3 +67,12 @@ Rails/I18nLocaleTexts:
 
 Rails/LexicallyScopedActionFilter:
   Enabled: false
+
+RSpec/NestedGroups:
+  Enabled: false
+
+RSpec/ContextWording:
+  Enabled: false
+
+RSpec/NamedSubject:
+  Enabled: false
