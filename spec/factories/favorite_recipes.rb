@@ -6,5 +6,9 @@ FactoryBot.define do
         favorite_recipe.recipe = create(:recipe, user: create(:user))
       end
     end
+
+    trait :with_user do
+      user
+    end
   end
 end

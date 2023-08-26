@@ -12,4 +12,19 @@ class Recipe < ApplicationRecord
   validates :serving_size, presence: true
   validates :is_draft, inclusion: { in: [true, false] }
   validates :is_public, inclusion: { in: [true, false] }
+
+  scope :popular_in_last_3_days, lambda {
+    joins(:favorite_recipes)
+      .merge(FavoriteRecipe.created_in_last_3_days)
+      .group('recipes.id')
+      .order('COUNT(favorite_recipes.id) DESC')
+  }
+
+  scope :not_favorited_in_last_3_days, lambda {
+    where.not(id: popular_in_last_3_days.pluck(:id))
+  }
+
+  def self.ordered_by_recent_favorites_and_others
+    popular_in_last_3_days + not_favorited_in_last_3_days
+  end
 end
