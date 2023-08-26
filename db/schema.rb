@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_13_234121) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_21_094451) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -58,11 +58,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_13_234121) do
   create_table "recipe_external_links", force: :cascade do |t|
     t.bigint "recipe_id", null: false
     t.string "url", null: false
-    t.string "type"
+    t.string "url_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["recipe_id", "type"], name: "index_recipe_external_links_on_recipe_id_and_type", unique: true
     t.index ["recipe_id", "url"], name: "index_recipe_external_links_on_recipe_id_and_url", unique: true
+    t.index ["recipe_id", "url_type"], name: "index_recipe_external_links_on_recipe_id_and_url_type", unique: true
     t.index ["recipe_id"], name: "index_recipe_external_links_on_recipe_id"
   end
 
@@ -101,11 +101,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_13_234121) do
   create_table "user_external_links", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "url", null: false
-    t.string "type"
+    t.string "url_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id", "type"], name: "index_user_external_links_on_user_id_and_type", unique: true
     t.index ["user_id", "url"], name: "index_user_external_links_on_user_id_and_url", unique: true
+    t.index ["user_id", "url_type"], name: "index_user_external_links_on_user_id_and_url_type", unique: true
     t.index ["user_id"], name: "index_user_external_links_on_user_id"
   end
 
@@ -118,7 +118,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_13_234121) do
     t.datetime "updated_at", null: false
     t.text "description"
     t.string "domain", null: false
-    t.string "type", null: false
+    t.string "user_type", null: false
     t.string "sns_id"
     t.string "thumnail"
     t.index ["domain"], name: "index_users_on_domain", unique: true
