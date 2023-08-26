@@ -9,6 +9,6 @@ class Recipe < ApplicationRecord
 
   validates :name, presence: true, length: { maximum: 100 }
   validates :description, length: { maximum: 256 }
-  validates :is_draft, inclusion: {in: [true, false]}
-  validates :is_public, inclusion: {in: [true, false]}
+  validates :is_draft, inclusion: { in: [true, false] }
+  validates :is_public, inclusion: { in: [true, false] }
 end
