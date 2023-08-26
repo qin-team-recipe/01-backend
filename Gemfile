@@ -44,6 +44,8 @@ gem "bootsnap", require: false
 
 gem 'sorcery'
 
+gem 'rails-i18n'
+
 # Use Sass to process CSS
 # gem "sassc-rails"
 
@@ -58,6 +60,8 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'factory_bot_rails'
   gem 'rubocop-rspec'
+  gem 'faker'
+  gem 'gimei'
 end
 
 group :development do

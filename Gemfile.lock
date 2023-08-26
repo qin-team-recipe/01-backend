@@ -98,10 +98,14 @@ GEM
     factory_bot_rails (6.2.0)
       factory_bot (~> 6.2.0)
       railties (>= 5.0.0)
+    faker (3.2.1)
+      i18n (>= 1.8.11, < 2)
     faraday (2.7.7)
       faraday-net_http (>= 2.0, < 3.1)
       ruby2_keywords (>= 0.0.4)
     faraday-net_http (3.0.2)
+    gimei (1.2.0)
+      romaji
     globalid (1.1.0)
       activesupport (>= 5.0)
     hashie (5.0.0)
@@ -201,6 +205,9 @@ GEM
     rails-html-sanitizer (1.6.0)
       loofah (~> 2.21)
       nokogiri (~> 1.14)
+    rails-i18n (7.0.8)
+      i18n (>= 0.7, < 2)
+      railties (>= 6.0.0, < 8)
     railties (7.0.5)
       actionpack (= 7.0.5)
       activesupport (= 7.0.5)
@@ -214,6 +221,8 @@ GEM
     reline (0.3.4)
       io-console (~> 0.5)
     rexml (3.2.5)
+    romaji (0.2.4)
+      rake (>= 0.8.0)
     rspec-core (3.12.2)
       rspec-support (~> 3.12.0)
     rspec-expectations (3.12.3)
@@ -322,12 +331,15 @@ DEPENDENCIES
   capybara
   debug
   factory_bot_rails
+  faker
+  gimei
   importmap-rails
   jbuilder
   pg (~> 1.1)
   pry-byebug
   puma (~> 5.0)
   rails (~> 7.0.5)
+  rails-i18n
   rspec-rails
   rubocop
   rubocop-performance
