@@ -19,7 +19,16 @@ RSpec.describe 'Recipes' do
       it 'recipeのレコードを返却すること' do
         get api_v1_recipes_path
 
-        expect(response.parsed_body[0]).to include({ 'id' => recipe.id })
+        expect(response.parsed_body[0]).to include({
+                                                     'id' => recipe.id,
+                                                     'name' => recipe.name,
+                                                     'description' => recipe.description,
+                                                     'favorite_count' => recipe.favoriters_count,
+                                                     'thumbnail' => recipe.thumbnail,
+                                                     'chef_name' => recipe.user.name,
+                                                     'created_at' => recipe.created_at.iso8601(3),
+                                                     'updated_at' => recipe.updated_at.iso8601(3)
+                                                   })
       end
     end
   end
