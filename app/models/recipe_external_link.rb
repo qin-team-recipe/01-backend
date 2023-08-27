@@ -1,13 +1,7 @@
 class RecipeExternalLink < ApplicationRecord
-  belongs_to :recipe
+  include UrlTypePattern
 
-  URL_TYPES = {
-    youtube: 'YouTube',
-    instagram: 'Instagram',
-    tiktok: 'TikTok',
-    twitter: 'Twitter',
-    facebook: 'Facebook'
-  }.freeze
+  belongs_to :recipe
 
   validates :url, presence: true, format: { with: URI::DEFAULT_PARSER.make_regexp, message: 'のフォーマットが正しくありません' }
   validates :recipe_id, uniqueness: { scope: :url_type }, allow_nil: true, unless: -> { url_type.nil? }
