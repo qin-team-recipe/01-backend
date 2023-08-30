@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_26_030241) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_30_065306) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -33,6 +33,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_26_030241) do
     t.datetime "updated_at", null: false
     t.boolean "own_notes", null: false
     t.index ["recipe_id"], name: "index_cart_lists_on_recipe_id"
+    t.index ["user_id", "recipe_id"], name: "index_cart_lists_on_user_id_and_recipe_id", unique: true
     t.index ["user_id"], name: "index_cart_lists_on_user_id"
   end
 
