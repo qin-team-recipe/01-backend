@@ -10,7 +10,7 @@ RSpec.describe User do
       subject { create(:user) }
 
       it 'CartListのレコードも作成されること' do
-        expect { subject }.to change { CartList.count }.by(1)
+        expect { subject }.to change(CartList, :count).by(1)
       end
 
       it 'CartListのレコードがじぶんメモであること' do
