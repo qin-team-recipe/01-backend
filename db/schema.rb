@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_30_065306) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_31_105645) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -25,7 +25,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_30_065306) do
   end
 
   create_table "cart_lists", force: :cascade do |t|
-    t.bigint "recipe_id", null: false
+    t.bigint "recipe_id"
     t.bigint "user_id", null: false
     t.string "name", null: false
     t.integer "position", null: false
