@@ -16,4 +16,12 @@ class User < ApplicationRecord
   validates :domain, presence: true, uniqueness: true
   validates :user_type, presence: true, inclusion: { in: ['user', 'chef'] }
   validates :description, length: { maximum: 256 }
+
+  after_create :create_cart_list
+
+  private
+
+  def create_cart_list
+    cart_lists.create(name: 'じぶんメモ', position: 1, own_notes: true)
+  end
 end
