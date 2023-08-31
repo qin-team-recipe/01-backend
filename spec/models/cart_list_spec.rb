@@ -37,5 +37,38 @@ RSpec.describe CartList do
         it { is_expected.to be_valid }
       end
     end
+
+    describe '.own_notes_values' do
+      subject { build(:cart_list, user:, recipe:, name:, own_notes:, position:) }
+
+      context 'じぶんメモを作成する場合' do
+        let(:user) { build(:user) }
+        let(:own_notes) { true }
+
+        context 'recipeが紐づいている場合' do
+          let(:recipe) { create(:recipe, user:) }
+          let(:name) { 'じぶんメモ' }
+          let(:position) { 1 }
+
+          it { is_expected.to be_invalid }
+        end
+
+        context 'nameが「じぶんメモ」ではない場合' do
+          let(:recipe) { nil }
+          let(:name) { 'じぶんメモではない' }
+          let(:position) { 1 }
+
+          it { is_expected.to be_invalid }
+        end
+
+        context 'positionが1ではない場合' do
+          let(:recipe) { nil }
+          let(:name) { 'じぶんメモ' }
+          let(:position) { 2 }
+
+          it { is_expected.to be_invalid }
+        end
+      end
+    end
   end
 end
