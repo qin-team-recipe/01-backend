@@ -4,7 +4,7 @@ Rails.application.routes.draw do
       resources :recipes
 
       resources :users do
-        resources :carts, only: %i[index], controller: 'cart_lists'
+        resources :cart_lists, only: %i[index]
       end
     end
   end
