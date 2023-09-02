@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe FavoriteRecipe do
-  describe 'バリデーション' do
+  describe 'validations' do
     subject { create(:favorite_recipe, user:, recipe:) }
 
     let(:recipe) { create(:recipe, :with_user) }
