@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Material do
-  describe 'バリデーション' do
+  describe 'validations' do
     subject { create(:material, recipe:) }
 
     let(:recipe) { create(:recipe, :with_user) }

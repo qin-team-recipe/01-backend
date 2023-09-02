@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Step do
-  describe 'バリデーション' do
+  describe 'validations' do
     subject { create(:step, recipe:) }
 
     let(:recipe) { create(:recipe, :with_user) }
