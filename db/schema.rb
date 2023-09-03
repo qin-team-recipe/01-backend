@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_30_065306) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_31_114934) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -25,13 +25,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_30_065306) do
   end
 
   create_table "cart_lists", force: :cascade do |t|
-    t.bigint "recipe_id", null: false
+    t.bigint "recipe_id"
     t.bigint "user_id", null: false
     t.string "name", null: false
     t.integer "position", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "own_notes", null: false
+    t.boolean "own_notes", default: false, null: false
     t.index ["recipe_id"], name: "index_cart_lists_on_recipe_id"
     t.index ["user_id", "recipe_id"], name: "index_cart_lists_on_user_id_and_recipe_id", unique: true
     t.index ["user_id"], name: "index_cart_lists_on_user_id"
