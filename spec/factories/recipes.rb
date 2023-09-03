@@ -10,4 +10,22 @@ FactoryBot.define do
   trait :with_user do
     user
   end
+
+  trait :with_step do
+    after(:create) do |recipe, _evaluator|
+      create(:step, recipe:)
+    end
+  end
+
+  trait :with_material do
+    after(:create) do |recipe, _evaluator|
+      create(:material, recipe:)
+    end
+  end
+
+  trait :with_recipe_external_link do
+    after(:create) do |recipe, _evaluator|
+      create(:recipe_external_link, recipe:)
+    end
+  end
 end
