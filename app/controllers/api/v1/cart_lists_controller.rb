@@ -1,4 +1,4 @@
-class Api::V1::CartListsController < ApplicationController
+class Api::V1::CartListsController < Api::V1::ApplicationBaseController
   before_action :set_user
 
   def index
