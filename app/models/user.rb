@@ -26,7 +26,8 @@ class User < ApplicationRecord
   end
 
   def unfollow(other_user)
-    following.delete(other_user)
+    follow_relationship = active_relationships.find_by(followed_id: other_user.id)
+    follow_relationship&.destroy!
   end
 
   scope :chef_users, lambda {
