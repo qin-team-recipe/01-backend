@@ -74,7 +74,7 @@ RSpec.describe 'Recipes' do
     end
   end
 
-  describe 'GET /user/:user_id/popular_recipes' do
+  describe 'GET /users/:user_id/popular_recipes' do
     let(:user) { create(:user) }
     let!(:recipe) { create(:recipe, user:) }
 
