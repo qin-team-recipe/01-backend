@@ -59,4 +59,52 @@ RSpec.describe User do
       end
     end
   end
+
+  describe 'followers.count' do
+    let(:user) { create(:user) }
+    let(:first_follower) { create(:user) }
+    let(:second_follower) { create(:user) }
+    let(:third_follower) { create(:user) }
+
+    before do
+      first_follower.follow(user)
+      second_follower.follow(user)
+      third_follower.follow(user)
+    end
+
+    context 'ユーザーがフォロワーを持つ場合' do
+      it '正確なフォロワーの数を返すこと' do
+        expect(user.followers.count).to eq(3)
+      end
+    end
+
+    context 'ユーザーが自分自身をフォローしようとする場合' do
+      it 'ユーザーが自身をフォローできないこと' do
+        user.follow(user)
+        expect(user.following).not_to include(user)
+      end
+    end
+
+    context 'ユーザーが他のユーザーをアンフォローする場合' do
+      before do
+        first_follower.unfollow(user)
+      end
+
+      it 'フォロワーカウントを正確に減らすこと' do
+        expect(user.followers.count).to eq(2)
+      end
+    end
+
+    context 'ユーザーがフォロワーを持たない場合' do
+      before do
+        first_follower.unfollow(user)
+        second_follower.unfollow(user)
+        third_follower.unfollow(user)
+      end
+
+      it 'フォロワーカウントは0であること' do
+        expect(user.followers.count).to eq(0)
+      end
+    end
+  end
 end

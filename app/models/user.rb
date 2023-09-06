@@ -19,6 +19,16 @@ class User < ApplicationRecord
 
   after_create :create_cart_list
 
+  def follow(other_user)
+    return if other_user == self
+
+    following << other_user
+  end
+
+  def unfollow(other_user)
+    following.delete(other_user)
+  end
+
   scope :chef_users, lambda {
     where(user_type: 'chef')
   }
