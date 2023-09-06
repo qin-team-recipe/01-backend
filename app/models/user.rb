@@ -19,7 +19,7 @@ class User < ApplicationRecord
 
   after_create :create_cart_list
 
-  def follow(other_user)
+  def follow!(other_user)
     return if other_user == self
 
     following << other_user
