@@ -26,29 +26,35 @@ RSpec.describe User do
   end
 
   describe 'scope' do
-    describe 'chef_users' do
+    describe '.chef_users' do
+      subject { described_class.chef_users }
+
       context 'ユーザーとシェフの両方が存在する場合' do
-        let!(:users) { create_list(:user, 3) }
-        let!(:chefs) { create_list(:user, 3, :chef) }
-  
+        before do
+          create_list(:user, 3)
+        end
+
         it 'chefユーザーのみ取得すること' do
-          expect(User.chef_users).to contain_exactly(*chefs)
+          chefs = create_list(:user, 3, :chef)
+          expect(subject).to match_array(chefs)
         end
       end
-  
+
       context 'chefユーザーのみ存在する場合' do
         let!(:chefs) { create_list(:user, 3, :chef) }
-  
+
         it 'chefユーザーのみ取得すること' do
-          expect(User.chef_users).to contain_exactly(*chefs)
+          expect(subject).to match_array(chefs)
         end
       end
-  
+
       context '一般ユーザーのみ存在する場合' do
-        let!(:users) { create_list(:user, 3) }
-  
+        before do
+          create_list(:user, 3)
+        end
+
         it '何も取得しないこと' do
-          expect(User.chef_users).to be_empty
+          expect(subject).to be_empty
         end
       end
     end
