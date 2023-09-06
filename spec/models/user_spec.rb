@@ -62,14 +62,10 @@ RSpec.describe User do
 
   describe 'followers.count' do
     let(:user) { create(:user) }
-    let(:first_follower) { create(:user) }
-    let(:second_follower) { create(:user) }
-    let(:third_follower) { create(:user) }
+    let(:followers) { create_list(:user, 3) }
 
     before do
-      first_follower.follow(user)
-      second_follower.follow(user)
-      third_follower.follow(user)
+      followers.each { |follower| follower.follow(user) }
     end
 
     context 'ユーザーがフォロワーを持つ場合' do
@@ -87,7 +83,7 @@ RSpec.describe User do
 
     context 'ユーザーが他のユーザーをアンフォローする場合' do
       before do
-        first_follower.unfollow(user)
+        followers.first.unfollow(user)
       end
 
       it 'フォロワーカウントを正確に減らすこと' do
@@ -97,13 +93,42 @@ RSpec.describe User do
 
     context 'ユーザーがフォロワーを持たない場合' do
       before do
-        first_follower.unfollow(user)
-        second_follower.unfollow(user)
-        third_follower.unfollow(user)
+        followers.each { |follower| follower.unfollow(user) }
       end
 
       it 'フォロワーカウントは0であること' do
         expect(user.followers.count).to eq(0)
+      end
+    end
+  end
+
+  describe 'recipes.count' do
+    let(:user) { create(:user) }
+    let!(:recipes) { create_list(:recipe, 3, user:) }
+
+    context 'ユーザーがレシピを持つ場合' do
+      it '正確なレシピの数を返すこと' do
+        expect(user.recipes.count).to eq(3)
+      end
+    end
+
+    context 'ユーザーがレシピを削除する場合' do
+      before do
+        recipes.first.destroy
+      end
+
+      it 'レシピカウントを正確に減らすこと' do
+        expect(user.recipes.count).to eq(2)
+      end
+    end
+
+    context 'ユーザーがすべてのレシピを削除する場合' do
+      before do
+        recipes.each(&:destroy)
+      end
+
+      it 'レシピカウントは0であること' do
+        expect(user.recipes.count).to eq(0)
       end
     end
   end
