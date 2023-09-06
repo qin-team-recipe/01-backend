@@ -30,12 +30,13 @@ RSpec.describe User do
       subject { described_class.chef_users }
 
       context 'ユーザーとシェフの両方が存在する場合' do
+        let!(:chefs) { create_list(:user, 3, :with_type_chef) }
+
         before do
           create_list(:user, 3)
         end
 
         it 'chefユーザーのみ取得すること' do
-          chefs = create_list(:user, 3, :with_type_chef)
           expect(subject).to match_array(chefs)
         end
       end
