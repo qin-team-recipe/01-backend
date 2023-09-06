@@ -6,6 +6,8 @@ Rails.application.routes.draw do
       resources :users do
         resources :cart_lists, only: %i[index]
       end
+
+      resources :chefs, only: %i[index]
     end
   end
 end

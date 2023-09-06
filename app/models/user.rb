@@ -19,6 +19,10 @@ class User < ApplicationRecord
 
   after_create :create_cart_list
 
+  scope :chef_users, lambda {
+    where(user_type: 'chef')
+  }
+
   private
 
   def create_cart_list
