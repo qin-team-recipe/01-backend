@@ -24,6 +24,13 @@ class Recipe < ApplicationRecord
     where.not(id: popular_in_last_3_days.pluck(:id))
   }
 
+  scope :popular_recipes_by_user, lambda { |user_id|
+    left_joins(:favorite_recipes)
+      .where(user_id:)
+      .group('recipes.id')
+      .order('COUNT(favorite_recipes.id) DESC')
+  }
+
   def self.ordered_by_recent_favorites_and_others
     popular_in_last_3_days + not_favorited_in_last_3_days
   end

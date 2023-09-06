@@ -7,6 +7,10 @@ class Api::V1::RecipesController < ApplicationController
     @recipe = Recipe.find(params[:id])
   end
 
+  def user_popular_recipes
+    @user_popular_recipes = Recipe.popular_recipes_by_user(params[:id]) # params[:id] -> user_id
+  end
+
   private
 
   def recipe_params
