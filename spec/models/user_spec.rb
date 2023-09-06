@@ -66,7 +66,7 @@ RSpec.describe User do
     let(:followers) { create_list(:user, 3) }
 
     before do
-      followers.each { |follower| follower.follow(user) }
+      followers.each { |follower| follower.follow!(user) }
     end
 
     context 'ユーザーがフォロワーを持つ場合' do
@@ -77,14 +77,13 @@ RSpec.describe User do
 
     context 'ユーザーが自分自身をフォローしようとする場合' do
       it 'ユーザーが自身をフォローできないこと' do
-        user.follow(user)
-        expect(user.following).not_to include(user)
+        expect { user.follow!(user) }.to raise_error(ArgumentError)
       end
     end
 
     context 'ユーザーが他のユーザーをアンフォローする場合' do
       before do
-        followers.first.unfollow(user)
+        followers.first.unfollow!(user)
       end
 
       it 'フォロワーカウントを正確に減らすこと' do
@@ -94,7 +93,7 @@ RSpec.describe User do
 
     context 'ユーザーがフォロワーを持たない場合' do
       before do
-        followers.each { |follower| follower.unfollow(user) }
+        followers.each { |follower| follower.unfollow!(user) }
       end
 
       it 'フォロワーカウントは0であること' do
