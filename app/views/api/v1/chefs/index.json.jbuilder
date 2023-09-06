@@ -4,6 +4,7 @@ json.array! @chefs do |chef|
   json.description chef.description
   json.follower_count chef.followers.count
   json.recipe_count chef.recipes.count
+  json.thumbnail chef.thumnail
   json.created_at chef.created_at
   json.updated_at chef.updated_at
 end
