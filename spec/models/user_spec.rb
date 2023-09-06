@@ -35,13 +35,13 @@ RSpec.describe User do
         end
 
         it 'chefユーザーのみ取得すること' do
-          chefs = create_list(:user, 3, :chef)
+          chefs = create_list(:user, 3, :with_type_chef)
           expect(subject).to match_array(chefs)
         end
       end
 
       context 'chefユーザーのみ存在する場合' do
-        let!(:chefs) { create_list(:user, 3, :chef) }
+        let!(:chefs) { create_list(:user, 3, :with_type_chef) }
 
         it 'chefユーザーのみ取得すること' do
           expect(subject).to match_array(chefs)
