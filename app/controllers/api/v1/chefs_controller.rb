@@ -1,5 +1,5 @@
 class Api::V1::ChefsController < ApplicationController
   def index
-    @chefs = User.chef_users
+    @chefs = User.by_type_chef
   end
 end

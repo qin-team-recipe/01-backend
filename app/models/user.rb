@@ -30,7 +30,7 @@ class User < ApplicationRecord
     follow_relationship&.destroy!
   end
 
-  scope :chef_users, lambda {
+  scope :by_type_chef, lambda {
     where(user_type: 'chef')
   }
 

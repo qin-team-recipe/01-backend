@@ -26,8 +26,8 @@ RSpec.describe User do
   end
 
   describe 'scope' do
-    describe '.chef_users' do
-      subject { described_class.chef_users }
+    describe '.by_type_chef' do
+      subject { described_class.by_type_chef }
 
       context 'ユーザーとシェフの両方が存在する場合' do
         let!(:chefs) { create_list(:user, 3, :with_type_chef) }
