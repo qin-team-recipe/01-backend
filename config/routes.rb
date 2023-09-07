@@ -11,7 +11,7 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :chefs, only: %i[index]
+      resources :chefs, only: %i[index show]
     end
   end
 end
