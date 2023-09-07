@@ -100,6 +100,19 @@ RSpec.describe User do
         expect(user.followers.count).to eq(0)
       end
     end
+
+    context 'ユーザーが既にアンフォローしたユーザーを再度アンフォローしようとする場合' do
+      let(:another_user) { create(:user) }
+
+      before do
+        user.follow!(another_user)
+        user.unfollow!(another_user)
+      end
+
+      it 'raises an ArgumentError' do
+        expect { user.unfollow!(another_user) }.to raise_error(ArgumentError)
+      end
+    end
   end
 
   describe 'recipes.count' do

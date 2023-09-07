@@ -27,7 +27,9 @@ class User < ApplicationRecord
 
   def unfollow!(following_user)
     follow_relationship = active_relationships.find_by(followed_id: following_user.id)
-    follow_relationship&.destroy!
+    raise ArgumentError if follow_relationship.nil?
+
+    follow_relationship.destroy!
   end
 
   scope :by_type_chef, lambda {
