@@ -5,5 +5,9 @@ FactoryBot.define do
     email { Faker::Internet.email }
     domain { Faker::Alphanumeric.alphanumeric(number: 10) }
     user_type { 'user' }
+
+    trait :with_type_chef do
+      user_type { 'chef' }
+    end
   end
 end

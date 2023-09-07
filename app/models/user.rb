@@ -19,6 +19,23 @@ class User < ApplicationRecord
 
   after_create :create_cart_list
 
+  def follow!(other_user)
+    raise ArgumentError if other_user == self
+
+    following << other_user
+  end
+
+  def unfollow!(following_user)
+    follow_relationship = active_relationships.find_by(followed_id: following_user.id)
+    raise ArgumentError if follow_relationship.nil?
+
+    follow_relationship.destroy!
+  end
+
+  scope :by_type_chef, lambda {
+    where(user_type: 'chef')
+  }
+
   private
 
   def create_cart_list

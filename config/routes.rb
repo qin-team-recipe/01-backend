@@ -10,6 +10,8 @@ Rails.application.routes.draw do
           get :popular_recipes, to: 'recipes#user_popular_recipes'
         end
       end
+
+      resources :chefs, only: %i[index]
     end
   end
 end
