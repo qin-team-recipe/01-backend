@@ -109,7 +109,7 @@ RSpec.describe User do
         user.unfollow!(another_user)
       end
 
-      it 'raises an ArgumentError' do
+      it 'エラーが発生すること' do
         expect { user.unfollow!(another_user) }.to raise_error(ArgumentError)
       end
     end
