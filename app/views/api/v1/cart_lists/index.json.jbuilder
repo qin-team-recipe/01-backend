@@ -1,5 +1,3 @@
-json.user_id @cart_lists&.first&.user_id
-
 json.lists @cart_lists do |cart_list|
   json.id cart_list.id
   json.recipe_id cart_list.recipe_id
