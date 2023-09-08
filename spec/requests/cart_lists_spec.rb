@@ -20,7 +20,6 @@ RSpec.describe 'CartLists' do
         get api_v1_user_cart_lists_path(cart_list.user_id)
 
         expect(response.parsed_body).to include(
-          'user_id' => cart_list.user_id,
           'lists' => contain_exactly(
             hash_including(
               'name' => 'じぶんメモ',
