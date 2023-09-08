@@ -125,6 +125,36 @@ RSpec.describe Recipe do
     end
   end
 
+  describe '.new_arrival_recipes_by_user' do
+    subject { described_class.new_arrival_recipes_by_user(user.id) }
+
+    let(:user) { create(:user) }
+
+    let!(:recipe_gratan) { create(:recipe, user:, name: 'グラタン', created_at: Time.current.ago(3.days)) }
+    let!(:recipe_pasta) { create(:recipe, user:, name: 'パスタ', created_at: Time.current.ago(2.days)) }
+    let!(:recipe_curry) { create(:recipe, user:, name: 'カレー', created_at: Time.current.ago(1.day)) }
+
+    let!(:another_user_recipe) { create(:recipe, :with_user, name: 'おにぎり') }
+
+    it '作成日時の新しい順に取得できること' do
+      expect(subject).to eq [recipe_curry, recipe_pasta, recipe_gratan]
+    end
+
+    it '他のユーザーのレシピが取得されないこと' do
+      expect(subject).not_to include(another_user_recipe)
+    end
+
+    it '下書きレシピが取得されないこと' do
+      draft_recipe = create(:recipe, user:, is_draft: true)
+      expect(subject).not_to include(draft_recipe)
+    end
+
+    it '非公開レシピが取得されないこと' do
+      not_public_recipe = create(:recipe, user:, is_public: false)
+      expect(subject).not_to include(not_public_recipe)
+    end
+  end
+
   describe '#ordered_by_recent_favorites_and_others' do
     subject { described_class.ordered_by_recent_favorites_and_others }
 

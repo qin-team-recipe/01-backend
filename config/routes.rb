@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 
         member do
           get :popular_recipes, to: 'recipes#user_popular_recipes'
+          get :new_arrival_recipes, to: 'recipes#user_new_arrival_recipes'
         end
       end
 
