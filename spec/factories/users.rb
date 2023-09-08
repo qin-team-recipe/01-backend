@@ -13,7 +13,7 @@ FactoryBot.define do
 
     trait :with_recipes do
       after(:create) do |user|
-        create_list(:recipe, 5, user: user)
+        create_list(:recipe, 5, user:)
       end
     end
   end
