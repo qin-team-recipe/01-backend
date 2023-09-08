@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'CartLists' do
   describe 'GET /cart_lists' do
     context 'レシピのレコードがあるとき' do
-      let!(:cart_list) { create(:cart_list, :with_user_and_recipe) }
+      let(:cart_list) { create(:cart_list, :with_user_and_recipe) }
       let!(:cart_item) { create(:cart_item, cart_list:) }
 
       it '200を返却すること' do
@@ -13,7 +13,7 @@ RSpec.describe 'CartLists' do
 
       it 'レスポンスの中身は1件のみであること' do
         get api_v1_user_cart_lists_path(cart_list.user_id)
-        expect(response.parsed_body['lists'].length).to eq 1
+        expect(response.parsed_body['lists'].length).to eq 2
       end
 
       it 'listsのレコードを返却すること' do
@@ -22,6 +22,11 @@ RSpec.describe 'CartLists' do
         expect(response.parsed_body).to include(
           'user_id' => cart_list.user_id,
           'lists' => contain_exactly(
+            hash_including(
+              'name' => 'じぶんメモ',
+              'own_notes' => true,
+              'position' => 1
+            ),
             hash_including(
               'id' => cart_list.id,
               'recipe_id' => cart_list.recipe_id,
