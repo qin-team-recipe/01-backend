@@ -6,18 +6,18 @@ RSpec.describe 'Chefs' do
       let!(:chef) { create(:user, :with_type_chef) }
 
       it '200を返却すること' do
-        get api_v1_chefs_path
+        get api_v1_users_path
         expect(response).to have_http_status(:ok)
       end
 
       it 'レスポンスの中身は1件のみであること' do
-        get api_v1_chefs_path
+        get api_v1_users_path
 
         expect(response.parsed_body.length).to eq 1
       end
 
       it 'chefのレコードを返却すること' do
-        get api_v1_chefs_path
+        get api_v1_users_path
 
         expect(response.parsed_body[0]).to include({
                                                      'id' => chef.id,
@@ -39,12 +39,12 @@ RSpec.describe 'Chefs' do
       let!(:chef_external_link) { create(:user_external_link, :with_url_type, user: chef) }
 
       it '200を返却すること' do
-        get api_v1_chef_path(chef)
+        get api_v1_user_path(chef)
         expect(response).to have_http_status(:ok)
       end
 
       it 'chefのレコードを返却すること' do
-        get api_v1_chef_path(chef)
+        get api_v1_user_path(chef)
 
         expect(response.parsed_body).to include({
                                                   'id' => chef.id,
