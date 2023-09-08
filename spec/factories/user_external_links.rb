@@ -5,5 +5,9 @@ FactoryBot.define do
     trait :with_user do
       user
     end
+
+    trait :with_url_type do
+      url_type { UserExternalLink::URL_TYPES.values.sample }
+    end
   end
 end
