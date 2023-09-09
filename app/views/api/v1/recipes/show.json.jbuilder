@@ -5,6 +5,8 @@ json.favorite_count @recipe.favoriters_count
 json.thumbnail @recipe.thumbnail
 json.chef_id @recipe.user_id
 json.chef_name @recipe.user.name
+json.serving_size @recipe.serving_size
+json.is_favorite false # TODO: ログイン機能ができたら実装する
 json.steps @recipe.steps do |step|
   json.description step.description
   json.position step.position

@@ -55,6 +55,8 @@ RSpec.describe 'Recipes' do
                                                   'favorite_count' => recipe.favoriters_count,
                                                   'thumbnail' => recipe.thumbnail,
                                                   'chef_name' => recipe.user.name,
+                                                  'serving_size' => recipe.serving_size,
+                                                  'is_favorite' => false, # TODO: ログイン機能ができたら実装する
                                                   'steps' => [
                                                     'description' => step.description,
                                                     'position' => step.position
