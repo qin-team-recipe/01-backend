@@ -31,6 +31,9 @@ class Recipe < ApplicationRecord
       .order('COUNT(favorite_recipes.id) DESC')
   }
 
+  scope :published, -> { where(is_draft: false, is_public: true) }
+  scope :new_arrival_recipes_by_user, ->(user_id) { published.where(user_id:).order(created_at: :desc) }
+
   def self.ordered_by_recent_favorites_and_others
     popular_in_last_3_days + not_favorited_in_last_3_days
   end
