@@ -39,4 +39,7 @@ class Recipe < ApplicationRecord
   end
 
   delegate :count, to: :favoriters, prefix: true
+  delegate :user_type, to: :user
+
+  alias author_type user_type
 end
