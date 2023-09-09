@@ -28,6 +28,7 @@ class Recipe < ApplicationRecord
 
   scope :popular_recipes_by_user, lambda { |user_id|
     left_joins(:favorite_recipes)
+      .published
       .where(user_id:)
       .group('recipes.id')
       .order('COUNT(favorite_recipes.id) DESC')
