@@ -1,4 +1,4 @@
-class Api::V1::ChefsController < ApplicationController
+class Api::V1::ChefsController < Api::V1::ApplicationBaseController
   def index
     @chefs = User.by_type_chef
   end
