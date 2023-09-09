@@ -87,6 +87,14 @@ RSpec.describe Recipe do
           expect(subject).to eq [recipe_gratan]
         end
       end
+
+      context '非公開のレシピがある場合' do
+        let!(:recipe_not_public) { create(:recipe, :with_user, is_public: false) }
+
+        it '非公開のレシピが取得されないこと' do
+          expect(subject).not_to include(recipe_not_public)
+        end
+      end
     end
 
     describe '.popular_recipes_by_user' do

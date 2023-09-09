@@ -22,7 +22,8 @@ class Recipe < ApplicationRecord
   }
 
   scope :not_favorited_in_last_3_days, lambda {
-    where.not(id: popular_in_last_3_days.pluck(:id))
+    published
+    .where.not(id: popular_in_last_3_days.pluck(:id))
   }
 
   scope :popular_recipes_by_user, lambda { |user_id|
