@@ -13,6 +13,10 @@ class Recipe < ApplicationRecord
   validates :is_draft, inclusion: { in: [true, false] }
   validates :is_public, inclusion: { in: [true, false] }
 
+  scope :published, -> { where(is_draft: false, is_public: true) }
+  scope :with_draft, -> { where(is_draft: true) }
+  scope :without_draft, -> { where(is_draft: false) }
+
   scope :popular_in_last_3_days, lambda {
     joins(:favorite_recipes)
       .published
@@ -34,11 +38,11 @@ class Recipe < ApplicationRecord
       .order('COUNT(favorite_recipes.id) DESC')
   }
 
-  scope :published, -> { where(is_draft: false, is_public: true) }
-  scope :with_draft, -> { where(is_draft: true) }
-  scope :without_draft, -> { where(is_draft: false) }
-
-  scope :new_arrival_recipes_by_user, ->(user_id) { without_draft.where(user_id:).order(created_at: :desc) }
+  scope :new_arrival_recipes_by_user, lambda { |user_id|
+    without_draft
+    .where(user_id:)
+    .order(created_at: :desc)
+  }
 
   delegate :count, to: :favoriters, prefix: true
   delegate :user_type, to: :user
