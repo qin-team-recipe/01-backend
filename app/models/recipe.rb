@@ -15,6 +15,7 @@ class Recipe < ApplicationRecord
 
   scope :popular_in_last_3_days, lambda {
     joins(:favorite_recipes)
+      .published
       .merge(FavoriteRecipe.created_in_last_3_days)
       .group('recipes.id')
       .order('COUNT(favorite_recipes.id) DESC')

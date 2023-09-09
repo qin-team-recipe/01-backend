@@ -44,6 +44,17 @@ RSpec.describe Recipe do
           expect(subject).to eq []
         end
       end
+
+      context 'いいねさされたレシピが非公開の場合' do
+        before do
+          recipe_not_public= create(:recipe, :with_user, is_public: false)
+          create_list(:favorite_recipe, 5, :with_user, recipe: recipe_not_public, created_at: Time.current)
+        end
+
+        it 'レコードが取得できないこと' do
+          expect(subject).to eq []
+        end
+      end
     end
 
     describe '.not_favorited_in_last_3_days' do
