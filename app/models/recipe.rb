@@ -42,4 +42,8 @@ class Recipe < ApplicationRecord
   def self.ordered_by_recent_favorites_and_others
     popular_in_last_3_days + not_favorited_in_last_3_days
   end
+
+  def is_favorite?(user)
+    favoriters.exists?(id: user.id)
+  end
 end
