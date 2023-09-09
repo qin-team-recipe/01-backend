@@ -4,6 +4,8 @@ json.description @recipe.description
 json.favorite_count @recipe.favoriters_count
 json.thumbnail @recipe.thumbnail
 json.serving_size @recipe.serving_size
+json.is_favorite false # TODO: ログイン機能ができたら実装する
+json.is_public @recipe.is_public
 json.is_draft @recipe.is_draft
 json.author_type @recipe.author_type
 json.steps @recipe.steps do |step|

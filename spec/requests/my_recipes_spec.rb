@@ -23,6 +23,8 @@ RSpec.describe 'MyRecipes' do
                                                   'favorite_count' => recipe.favoriters_count,
                                                   'thumbnail' => recipe.thumbnail,
                                                   'serving_size' => recipe.serving_size,
+                                                  'is_favorite' => false, # TODO: ログイン機能ができたら実装する
+                                                  'is_public' => recipe.is_public,
                                                   'is_draft' => recipe.is_draft,
                                                   'author_type' => recipe.author_type,
                                                   'steps' => [
