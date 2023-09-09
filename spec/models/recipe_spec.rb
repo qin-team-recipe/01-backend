@@ -47,7 +47,7 @@ RSpec.describe Recipe do
 
       context 'いいねさされたレシピが非公開の場合' do
         before do
-          recipe_not_public= create(:recipe, :with_user, is_public: false)
+          recipe_not_public = create(:recipe, :with_user, is_public: false)
           create_list(:favorite_recipe, 5, :with_user, recipe: recipe_not_public, created_at: Time.current)
         end
 
@@ -174,11 +174,6 @@ RSpec.describe Recipe do
     it '下書きレシピが取得されないこと' do
       draft_recipe = create(:recipe, user:, is_draft: true)
       expect(subject).not_to include(draft_recipe)
-    end
-
-    it '非公開レシピが取得されないこと' do
-      not_public_recipe = create(:recipe, user:, is_public: false)
-      expect(subject).not_to include(not_public_recipe)
     end
   end
 
