@@ -42,8 +42,8 @@ class Recipe < ApplicationRecord
   # NOTE: 引数のユーザーが作成したレシピを新着順に並べる
   scope :new_arrival_recipes_by_user, lambda { |user_id|
     without_draft # NOTE: 下書き以外のレシピを返却する
-    .where(user_id:)
-    .order(created_at: :desc)
+      .where(user_id:)
+      .order(created_at: :desc)
   }
 
   delegate :count, to: :favoriters, prefix: true
