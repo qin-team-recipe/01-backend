@@ -44,17 +44,6 @@ RSpec.describe Recipe do
           expect(subject).to eq []
         end
       end
-
-      context 'いいねさされたレシピが非公開の場合' do
-        before do
-          recipe_not_public = create(:recipe, :with_user, is_public: false)
-          create_list(:favorite_recipe, 5, :with_user, recipe: recipe_not_public, created_at: Time.current)
-        end
-
-        it 'レコードが取得できないこと' do
-          expect(subject).to eq []
-        end
-      end
     end
 
     describe '.not_favorited_in_last_3_days' do
@@ -85,14 +74,6 @@ RSpec.describe Recipe do
       context 'いいねされていない場合' do
         it 'レコードを取得できること' do
           expect(subject).to eq [recipe_gratan]
-        end
-      end
-
-      context '非公開のレシピがある場合' do
-        let!(:recipe_not_public) { create(:recipe, :with_user, is_public: false) }
-
-        it '非公開のレシピが取得されないこと' do
-          expect(subject).not_to include(recipe_not_public)
         end
       end
     end
@@ -149,14 +130,6 @@ RSpec.describe Recipe do
           expect(subject).to eq [recipe_gratan, recipe_pasta, recipe_curry]
         end
       end
-
-      context '非公開のレシピがある場合' do
-        let!(:recipe_not_public) { create(:recipe, :with_user, is_public: false) }
-
-        it '非公開のレシピが取得されないこと' do
-          expect(subject).not_to include(recipe_not_public)
-        end
-      end
     end
   end
 
@@ -177,11 +150,6 @@ RSpec.describe Recipe do
 
     it '他のユーザーのレシピが取得されないこと' do
       expect(subject).not_to include(another_user_recipe)
-    end
-
-    it '下書きレシピが取得されないこと' do
-      draft_recipe = create(:recipe, user:, is_draft: true)
-      expect(subject).not_to include(draft_recipe)
     end
   end
 

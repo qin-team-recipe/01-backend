@@ -19,21 +19,18 @@ class Recipe < ApplicationRecord
 
   scope :popular_in_last_3_days, lambda {
     joins(:favorite_recipes)
-      .published # NOTE: 人気関連のロジックは公開中のレシピのレコードで行う
       .merge(FavoriteRecipe.created_in_last_3_days)
       .group('recipes.id')
       .order('COUNT(favorite_recipes.id) DESC')
   }
 
   scope :not_favorited_in_last_3_days, lambda {
-    published # NOTE: 人気関連のロジックは公開中のレシピのレコードで行う
-      .where.not(id: popular_in_last_3_days.pluck(:id))
+    where.not(id: popular_in_last_3_days.pluck(:id))
   }
 
   # NOTE: 引数のユーザーが作成したレシピを人気順に並べる
   scope :popular_recipes_by_user, lambda { |user_id|
     left_joins(:favorite_recipes)
-      .published # NOTE: 人気関連のロジックは公開中のレシピのレコードで行う
       .where(user_id:)
       .group('recipes.id')
       .order('COUNT(favorite_recipes.id) DESC')
@@ -41,9 +38,7 @@ class Recipe < ApplicationRecord
 
   # NOTE: 引数のユーザーが作成したレシピを新着順に並べる
   scope :new_arrival_recipes_by_user, lambda { |user_id|
-    without_draft # NOTE: 下書き以外のレシピを返却する
-      .where(user_id:)
-      .order(created_at: :desc)
+    where(user_id:).order(created_at: :desc)
   }
 
   delegate :count, to: :favoriters, prefix: true
