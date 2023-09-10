@@ -3,32 +3,51 @@ require 'rails_helper'
 RSpec.describe 'Recipes' do
   describe 'GET /recipes' do
     context 'レシピのレコードがあるとき' do
-      let!(:recipe) { create(:recipe, :with_user) }
+      context 'レシピが公開中の場合' do
+        let!(:recipe) { create(:recipe, :with_user, is_public: true) }
 
-      it '200を返却すること' do
-        get api_v1_recipes_path
-        expect(response).to have_http_status(:ok)
+        it '200を返却すること' do
+          get api_v1_recipes_path
+          expect(response).to have_http_status(:ok)
+        end
+
+        it 'レスポンスの中身は1件のみであること' do
+          get api_v1_recipes_path
+
+          expect(response.parsed_body.length).to eq 1
+        end
+
+        it 'recipeのレコードを返却すること' do
+          get api_v1_recipes_path
+
+          expect(response.parsed_body[0]).to include({
+                                                       'id' => recipe.id,
+                                                       'name' => recipe.name,
+                                                       'description' => recipe.description,
+                                                       'favorite_count' => recipe.favoriters_count,
+                                                       'thumbnail' => recipe.thumbnail,
+                                                       'chef_name' => recipe.user.name,
+                                                       'created_at' => recipe.created_at.iso8601(3),
+                                                       'updated_at' => recipe.updated_at.iso8601(3)
+                                                     })
+        end
       end
 
-      it 'レスポンスの中身は1件のみであること' do
-        get api_v1_recipes_path
+      context 'レシピが非公開中の場合' do
+        before do
+          create(:recipe, :with_user, is_public: false)
+        end
 
-        expect(response.parsed_body.length).to eq 1
-      end
+        it '200を返却すること' do
+          get api_v1_recipes_path
+          expect(response).to have_http_status(:ok)
+        end
 
-      it 'recipeのレコードを返却すること' do
-        get api_v1_recipes_path
+        it 'レスポンスの中身は0件であること' do
+          get api_v1_recipes_path
 
-        expect(response.parsed_body[0]).to include({
-                                                     'id' => recipe.id,
-                                                     'name' => recipe.name,
-                                                     'description' => recipe.description,
-                                                     'favorite_count' => recipe.favoriters_count,
-                                                     'thumbnail' => recipe.thumbnail,
-                                                     'chef_name' => recipe.user.name,
-                                                     'created_at' => recipe.created_at.iso8601(3),
-                                                     'updated_at' => recipe.updated_at.iso8601(3)
-                                                   })
+          expect(response.parsed_body.length).to eq 0
+        end
       end
     end
   end
