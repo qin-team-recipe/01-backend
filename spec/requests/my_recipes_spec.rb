@@ -9,12 +9,12 @@ RSpec.describe 'MyRecipes' do
       let!(:recipe_external_link) { create(:recipe_external_link, :with_url_type, recipe:) }
 
       it '200を返却すること' do
-        get my_recipes_show_api_v1_user_path(recipe)
+        get api_v1_user_my_recipe_path(recipe.user, recipe)
         expect(response).to have_http_status(:ok)
       end
 
       it 'recipeのレコードを返却すること' do
-        get my_recipes_show_api_v1_user_path(recipe)
+        get api_v1_user_my_recipe_path(recipe.user, recipe)
 
         expect(response.parsed_body).to include({
                                                   'id' => recipe.id,

@@ -5,11 +5,11 @@ Rails.application.routes.draw do
 
       resources :users do
         resources :cart_lists, only: %i[index]
+        resources :my_recipes, only: %i[show]
 
         member do
           get :popular_recipes, to: 'recipes#user_popular_recipes'
           get :new_arrival_recipes, to: 'recipes#user_new_arrival_recipes'
-          get '/recipes/:id', to: 'my_recipes#show', as: :my_recipes_show
         end
       end
 
