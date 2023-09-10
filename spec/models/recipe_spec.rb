@@ -236,7 +236,7 @@ RSpec.describe Recipe do
     context 'レシピにお気に入りがついていない場合' do
       let(:user) { create(:user) }
 
-      it 'trueが返却されること' do
+      it 'falseが返却されること' do
         expect(subject).to be false
       end
     end
