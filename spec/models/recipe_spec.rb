@@ -210,14 +210,14 @@ RSpec.describe Recipe do
     let!(:recipe) { create(:recipe, :with_user) }
 
     context 'レシピにお気に入りがついている場合' do
-      let!(:favorted_user) { create(:user) }
+      let!(:favorited_user) { create(:user) }
 
       before do
-        create(:favorite_recipe, user: favorted_user, recipe:)
+        create(:favorite_recipe, user: favorited_user, recipe:)
       end
 
       context '引数のuserとレシピをお気に入りにしているユーザーが同じ場合' do
-        let(:user) { favorted_user }
+        let(:user) { favorited_user }
 
         it 'trueが返却されること' do
           expect(subject).to be true
