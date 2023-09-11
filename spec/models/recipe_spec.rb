@@ -203,4 +203,42 @@ RSpec.describe Recipe do
       end
     end
   end
+
+  describe '#is_favorite?' do
+    subject { recipe.is_favorite?(user) }
+
+    let!(:recipe) { create(:recipe, :with_user) }
+
+    context 'レシピにお気に入りがついている場合' do
+      let!(:favorited_user) { create(:user) }
+
+      before do
+        create(:favorite_recipe, user: favorited_user, recipe:)
+      end
+
+      context '引数のuserとレシピをお気に入りにしているユーザーが同じ場合' do
+        let(:user) { favorited_user }
+
+        it 'trueが返却されること' do
+          expect(subject).to be true
+        end
+      end
+
+      context '引数のuserとレシピをお気に入りにしているユーザーが異なる場合' do
+        let(:user) { create(:user) }
+
+        it 'falseが返却されること' do
+          expect(subject).to be false
+        end
+      end
+    end
+
+    context 'レシピにお気に入りがついていない場合' do
+      let(:user) { create(:user) }
+
+      it 'falseが返却されること' do
+        expect(subject).to be false
+      end
+    end
+  end
 end

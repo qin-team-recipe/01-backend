@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
       resources :users do
         resources :cart_lists, only: %i[index]
+        resources :my_recipes, only: %i[show]
 
         member do
           get :popular_recipes, to: 'recipes#user_popular_recipes'
