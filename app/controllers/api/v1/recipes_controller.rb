@@ -15,6 +15,12 @@ class Api::V1::RecipesController < Api::V1::ApplicationBaseController
     @user_new_arrival_recipes = Recipe.new_arrival_recipes_by_user(params[:id])
   end
 
+  def search
+    keyword = params[:keyword]
+    page = params[:page].to_i.zero? ? 1 : params[:page].to_i
+    @recipes = Recipe.search_by_name(keyword).paginate(page)
+  end
+
   private
 
   def recipe_params
