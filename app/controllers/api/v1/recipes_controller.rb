@@ -1,7 +1,7 @@
 class Api::V1::RecipesController < Api::V1::ApplicationBaseController
   # NOTE: 話題のレシピ一覧
   def index
-    @recipes = Recipe.published.ordered_by_recent_favorites_and_others
+    @recipes = Recipe.by_chef.published.ordered_by_recent_favorites_and_others
   end
 
   def show
