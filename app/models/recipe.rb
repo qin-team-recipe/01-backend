@@ -41,6 +41,10 @@ class Recipe < ApplicationRecord
     where(user_id:).order(created_at: :desc)
   }
 
+  scope :by_chef, lambda {
+    joins(:user).where(users: { user_type: 'chef' })
+  }
+
   delegate :count, to: :favoriters, prefix: true
   delegate :user_type, to: :user
 

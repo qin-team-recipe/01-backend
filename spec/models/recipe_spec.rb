@@ -131,6 +131,23 @@ RSpec.describe Recipe do
         end
       end
     end
+
+    describe '.by_chef' do
+      subject { described_class.by_chef }
+
+      context 'chefとuserが作成したレシピが混在している場合' do
+        let!(:recipe_gratan) { create(:recipe, :with_chef, name: 'グラタン') }
+        let!(:recipe_pasta) { create(:recipe, :with_chef, name: 'パスタ') }
+
+        before do
+          create(:recipe, :with_user, name: 'カレー')
+        end
+
+        it 'chefのレシピのみ取得できること' do
+          expect(subject).to eq [recipe_gratan, recipe_pasta]
+        end
+      end
+    end
   end
 
   describe '.new_arrival_recipes_by_user' do
