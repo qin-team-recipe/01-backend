@@ -8,7 +8,17 @@ FactoryBot.define do
   end
 
   trait :with_user do
-    user
+    before(:create) do |recipe|
+      user = create(:user, user_type: 'user')
+      recipe.user = user
+    end
+  end
+
+  trait :with_chef do
+    before(:create) do |recipe|
+      user = create(:user, user_type: 'chef')
+      recipe.user = user
+    end
   end
 
   trait :with_step do
