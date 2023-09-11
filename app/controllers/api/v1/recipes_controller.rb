@@ -20,7 +20,7 @@ class Api::V1::RecipesController < Api::V1::ApplicationBaseController
     page = params[:page].to_i.zero? ? 1 : params[:page].to_i
     render(json: { error: '不正なパラメータです。' }, status: :unprocessable_entity) if keyword.nil?
     # TODO: 以下別PRのby_chefを使用してchefに絞る
-    @recipes = Recipe.ordered_by_recent_favorites_and_others.search_by_name(keyword).paginate(page)
+    @recipes = Recipe.popular_in_last_3_days.popular_in_last_3_days.search_by_name(keyword).paginate(page)
   end
 
   private
