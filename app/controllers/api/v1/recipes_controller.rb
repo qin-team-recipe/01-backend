@@ -18,7 +18,9 @@ class Api::V1::RecipesController < Api::V1::ApplicationBaseController
   def search
     keyword = params[:keyword]
     page = params[:page].to_i.zero? ? 1 : params[:page].to_i
-    @recipes = Recipe.search_by_name(keyword).paginate(page)
+    render(json: { error: '不正なパラメータです。' }, status: :unprocessable_entity) if keyword.nil?
+    # TODO: 以下別PRのby_chefを使用してchefに絞る
+    @recipes = Recipe.ordered_by_recent_favorites_and_others.search_by_name(keyword).paginate(page)
   end
 
   private

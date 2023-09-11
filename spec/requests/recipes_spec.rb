@@ -108,4 +108,104 @@ RSpec.describe 'Recipes' do
       end
     end
   end
+
+  # TODO: controllerの修正に合わせてテストを修正する
+  describe 'GET /api/v1/recipes/search' do
+    let(:user) { create(:user) }
+
+    context '返却値の構造を確認' do
+      let!(:recipe) { create(:recipe, user:, name: 'パスタグラタン') }
+
+      before do
+        get '/api/v1/recipes/search', params: { keyword: 'グラタン', page: 1 }
+      end
+
+      it 'recipeのレコードを返却すること' do
+        expect(response.parsed_body[0]).to include({
+                                                     'id' => recipe.id,
+                                                     'name' => recipe.name,
+                                                     'description' => recipe.description,
+                                                     'favorite_count' => recipe.favoriters_count,
+                                                     'thumbnail' => recipe.thumbnail,
+                                                     'chef_name' => recipe.user.name,
+                                                     'created_at' => recipe.created_at.iso8601(3),
+                                                     'updated_at' => recipe.updated_at.iso8601(3)
+                                                   })
+      end
+    end
+
+    context '有効なキーワードが与えられたとき' do
+      before do
+        create(:recipe, user:, name: 'パスタグラタン')
+        create(:recipe, user:, name: 'カレーグラタン')
+        create(:recipe, user:, name: 'チーズグラタン')
+
+        get '/api/v1/recipes/search', params: { keyword: 'グラタン', page: 1 }
+      end
+
+      it '200を返却すること' do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it '一致したレシピのリストを返却すること' do
+        expect(response.parsed_body.length).to eq 3
+      end
+
+      it '一致したレシピが含まれていること' do
+        recipe_names = response.parsed_body.pluck('name')
+        expect(recipe_names).to include('パスタグラタン', 'カレーグラタン', 'チーズグラタン')
+      end
+    end
+
+    context 'ページネーションが適用されるとき' do
+      before do
+        create_list(:recipe, 11, user:, name: 'テストレシピ')
+      end
+
+      it '1ページ目は最大10件のアイテムを返却すること' do
+        get '/api/v1/recipes/search', params: { keyword: 'テストレシピ', page: 1 }
+        expect(response.parsed_body.length).to eq 10
+      end
+
+      it '2ページ目が正しい数のアイテムを返却すること' do
+        get '/api/v1/recipes/search', params: { keyword: 'テストレシピ', page: 2 }
+        expect(response.parsed_body.length).to eq 1
+      end
+
+      it '0がページ番号として与えられたときに200を返却すること' do
+        create_list(:recipe, 10, user:, name: 'テストレシピ')
+
+        get '/api/v1/recipes/search', params: { keyword: 'テストレシピ', page: 0 }
+        expect(response).to have_http_status(:ok)
+      end
+    end
+
+    context '空のキーワードが与えられたとき' do
+      before do
+        create(:recipe, user:, name: 'パスタ')
+        create(:recipe, user:, name: 'カレー')
+        create(:recipe, user:, name: 'グラタン')
+
+        get '/api/v1/recipes/search', params: { keyword: '', page: 1 }
+      end
+
+      it '200を返却すること' do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it '全てのレシピのリストを返却すること' do
+        expect(response.parsed_body.length).to eq 3
+      end
+    end
+
+    context 'null値のキーワードが与えられたとき' do
+      before do
+        get '/api/v1/recipes/search', params: { keyword: nil, page: 1 }
+      end
+
+      it '422を返却すること' do
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+    end
+  end
 end

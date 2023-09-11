@@ -55,6 +55,4 @@ class Recipe < ApplicationRecord
   def is_favorite?(user)
     favoriters.exists?(id: user.id)
   end
-
-  
 end
