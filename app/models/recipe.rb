@@ -1,5 +1,4 @@
 class Recipe < ApplicationRecord
-
   PER_PAGE = 10
 
   has_many :favorite_recipes, dependent: :destroy
@@ -37,7 +36,7 @@ class Recipe < ApplicationRecord
   scope :published, -> { where(is_draft: false, is_public: true) }
   scope :new_arrival_recipes_by_user, ->(user_id) { published.where(user_id:).order(created_at: :desc) }
 
-  scope :search_by_name, ->(keyword) { where("name LIKE ?", "%#{keyword}%") }
+  scope :search_by_name, ->(keyword) { where('name LIKE ?', "%#{keyword}%") }
 
   def self.ordered_by_recent_favorites_and_others
     popular_in_last_3_days + not_favorited_in_last_3_days
