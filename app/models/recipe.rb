@@ -1,4 +1,6 @@
 class Recipe < ApplicationRecord
+  PER_PAGE = 10
+
   has_many :favorite_recipes, dependent: :destroy
   has_many :favoriters, through: :favorite_recipes, source: :user
   belongs_to :user
@@ -33,6 +35,8 @@ class Recipe < ApplicationRecord
 
   scope :published, -> { where(is_draft: false, is_public: true) }
   scope :new_arrival_recipes_by_user, ->(user_id) { published.where(user_id:).order(created_at: :desc) }
+
+  scope :search_by_name, ->(keyword) { where('name LIKE ?', "%#{keyword}%") }
 
   delegate :count, to: :favoriters, prefix: true
   delegate :user_type, to: :user
