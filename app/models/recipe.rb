@@ -47,7 +47,14 @@ class Recipe < ApplicationRecord
     popular_in_last_3_days + not_favorited_in_last_3_days
   end
 
+  def self.paginate(page, per_page = PER_PAGE)
+    offset = (page - 1) * per_page
+    limit(per_page).offset(offset)
+  end
+
   def is_favorite?(user)
     favoriters.exists?(id: user.id)
   end
+
+  
 end
