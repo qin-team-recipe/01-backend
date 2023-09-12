@@ -335,7 +335,7 @@ RSpec.describe 'Recipes' do
         get '/api/v1/recipes/search', params: { keyword: 'グラタン', page: 1 }
       end
 
-      it 'chefタイプのユーザー以外のレシピは含まれないこと' do
+      it '一般シェフユーザーのレシピは含まれないこと' do
         expect(response.parsed_body).to eq([])
       end
     end
