@@ -44,6 +44,16 @@ RSpec.describe 'MyRecipes' do
                                                 })
       end
     end
+
+    context 'リクエストされたuser_idとrecipe_idに整合性がない場合' do
+      let!(:recipe) { create(:recipe, :with_user) }
+      let!(:another_user) { create(:user) }
+
+      it '400を返却すること' do
+        get api_v1_user_my_recipe_path(another_user, recipe)
+        expect(response).to have_http_status(:bad_request)
+      end
+    end
   end
 
   describe 'GET /users/:user_id/my_recipes/:id/edit' do
@@ -84,6 +94,16 @@ RSpec.describe 'MyRecipes' do
                                                   'created_at' => recipe.created_at.iso8601(3),
                                                   'updated_at' => recipe.updated_at.iso8601(3)
                                                 })
+      end
+    end
+
+    context 'リクエストされたuser_idとrecipe_idに整合性がない場合' do
+      let!(:recipe) { create(:recipe, :with_user) }
+      let!(:another_user) { create(:user) }
+
+      it '400を返却すること' do
+        get edit_api_v1_user_my_recipe_path(another_user, recipe)
+        expect(response).to have_http_status(:bad_request)
       end
     end
   end

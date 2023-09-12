@@ -1,5 +1,6 @@
 class Api::V1::MyRecipesController < Api::V1::ApplicationBaseController
   before_action :set_recipe
+  before_action :check_request_ids_params
 
   def show
     # TODO: recipe.userとログインユーザーが同じかどうかをチェックする
@@ -17,5 +18,9 @@ class Api::V1::MyRecipesController < Api::V1::ApplicationBaseController
 
   def set_recipe
     @recipe = Recipe.find(params[:id])
+  end
+
+  def check_request_ids_params
+    raise ActionController::BadRequest unless params[:user_id].to_i == @recipe.user_id
   end
 end
