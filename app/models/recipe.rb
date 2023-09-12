@@ -57,10 +57,6 @@ class Recipe < ApplicationRecord
   alias author_type user_type
 
   def self.ordered_by_recent_favorites_and_others
-    popular_in_last_3_days + not_favorited_in_last_3_days
-  end
-
-  def self.ordered_by_recent_favorites_and_others_relation
     where(id: popular_in_last_3_days.pluck(:id) + not_favorited_in_last_3_days.pluck(:id))
   end
 
