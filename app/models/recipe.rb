@@ -1,4 +1,6 @@
 class Recipe < ApplicationRecord
+  PER_PAGE = 10
+
   has_many :favorite_recipes, dependent: :destroy
   has_many :favoriters, through: :favorite_recipes, source: :user
   belongs_to :user
@@ -45,6 +47,10 @@ class Recipe < ApplicationRecord
     joins(:user).where(users: { user_type: 'chef' })
   }
 
+  scope :search_by_name, lambda { |keyword|
+    where('recipes.name LIKE ?', "%#{keyword}%")
+  }
+
   delegate :count, to: :favoriters, prefix: true
   delegate :user_type, to: :user
 
@@ -54,7 +60,16 @@ class Recipe < ApplicationRecord
     popular_in_last_3_days + not_favorited_in_last_3_days
   end
 
+  def self.ordered_by_recent_favorites_and_others_relation
+    where(id: popular_in_last_3_days.pluck(:id) + not_favorited_in_last_3_days.pluck(:id))
+  end
+
   def is_favorite?(user)
     favoriters.exists?(id: user.id)
+  end
+
+  def self.paginate(page, per_page = PER_PAGE)
+    offset = (page - 1) * per_page
+    limit(per_page).offset(offset)
   end
 end
