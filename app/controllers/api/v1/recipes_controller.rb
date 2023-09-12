@@ -24,8 +24,10 @@ class Api::V1::RecipesController < Api::V1::ApplicationBaseController
 
   def search
     keyword = params[:keyword]
+
+    raise ActionController::ParameterMissing, 'keyword parameter is missing' if keyword.nil?
+
     page = params[:page].to_i.zero? ? 1 : params[:page].to_i
-    render(json: { error: '不正なパラメータです。' }, status: :unprocessable_entity) if keyword.nil?
     @recipes = Recipe.by_chef.published.ordered_by_recent_favorites_and_others.search_by_name(keyword).paginate(page)
   end
 

@@ -275,12 +275,8 @@ RSpec.describe 'Recipes' do
           get '/api/v1/recipes/search', params: { page: 1 }
         end
 
-        it '422 Unprocessable Entityを返却すること' do
-          expect(response).to have_http_status(:unprocessable_entity)
-        end
-
-        it '適切なエラーメッセージを返却すること' do
-          expect(response.parsed_body).to include('error' => '不正なパラメータです。')
+        it '400 Bad Requestを返却すること' do
+          expect(response).to have_http_status(:bad_request)
         end
       end
     end
