@@ -83,13 +83,13 @@ RSpec.describe Recipe do
 
       let(:user) { create(:user) }
 
-      let!(:recipe_gratan) { create(:recipe, user:, name: 'グラタン') }
-      let!(:recipe_pasta) { create(:recipe, user:, name: 'パスタ') }
-      let!(:recipe_curry) { create(:recipe, user:, name: 'カレー') }
-
-      let!(:another_user_recipe) { create(:recipe, :with_user, name: 'おにぎり') }
-
       context 'いいねの数に差がある場合' do
+        let!(:recipe_gratan) { create(:recipe, user:, name: 'グラタン') }
+        let!(:recipe_pasta) { create(:recipe, user:, name: 'パスタ') }
+        let!(:recipe_curry) { create(:recipe, user:, name: 'カレー') }
+
+        let!(:another_user_recipe) { create(:recipe, :with_user, name: 'おにぎり') }
+
         before do
           create_list(:favorite_recipe, 5, :with_user, recipe: recipe_gratan, created_at: Time.current.ago(2.days))
           create_list(:favorite_recipe, 3, :with_user, recipe: recipe_pasta, created_at: Time.current.yesterday)
@@ -106,6 +106,10 @@ RSpec.describe Recipe do
       end
 
       context 'いいねの数に差がない場合' do
+        let!(:recipe_gratan) { create(:recipe, user:, name: 'グラタン') }
+        let!(:recipe_pasta) { create(:recipe, user:, name: 'パスタ') }
+        let!(:recipe_curry) { create(:recipe, user:, name: 'カレー') }
+
         before do
           create(:favorite_recipe, :with_user, recipe: recipe_curry, created_at: Time.current.ago(2.days))
           create(:favorite_recipe, :with_user, recipe: recipe_pasta, created_at: Time.current.yesterday)
@@ -118,8 +122,29 @@ RSpec.describe Recipe do
       end
 
       context 'いいねされているレシピがない場合' do
+        let!(:recipe_gratan) { create(:recipe, user:, name: 'グラタン') }
+        let!(:recipe_pasta) { create(:recipe, user:, name: 'パスタ') }
+        let!(:recipe_curry) { create(:recipe, user:, name: 'カレー') }
+
         it '作成順に取得できること' do
           expect(subject).to eq [recipe_gratan, recipe_pasta, recipe_curry]
+        end
+      end
+    end
+
+    describe '.by_chef' do
+      subject { described_class.by_chef }
+
+      context 'chefとuserが作成したレシピが混在している場合' do
+        let!(:recipe_gratan) { create(:recipe, :with_chef, name: 'グラタン') }
+        let!(:recipe_pasta) { create(:recipe, :with_chef, name: 'パスタ') }
+
+        before do
+          create(:recipe, :with_user, name: 'カレー')
+        end
+
+        it 'chefのレシピのみ取得できること' do
+          expect(subject).to eq [recipe_gratan, recipe_pasta]
         end
       end
     end
@@ -142,16 +167,6 @@ RSpec.describe Recipe do
 
     it '他のユーザーのレシピが取得されないこと' do
       expect(subject).not_to include(another_user_recipe)
-    end
-
-    it '下書きレシピが取得されないこと' do
-      draft_recipe = create(:recipe, user:, is_draft: true)
-      expect(subject).not_to include(draft_recipe)
-    end
-
-    it '非公開レシピが取得されないこと' do
-      not_public_recipe = create(:recipe, user:, is_public: false)
-      expect(subject).not_to include(not_public_recipe)
     end
   end
 

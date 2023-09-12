@@ -13,6 +13,10 @@ class Recipe < ApplicationRecord
   validates :is_draft, inclusion: { in: [true, false] }
   validates :is_public, inclusion: { in: [true, false] }
 
+  scope :published, -> { where(is_draft: false, is_public: true) }
+  scope :with_draft, -> { where(is_draft: true) }
+  scope :without_draft, -> { where(is_draft: false) }
+
   scope :popular_in_last_3_days, lambda {
     joins(:favorite_recipes)
       .merge(FavoriteRecipe.created_in_last_3_days)
@@ -24,6 +28,7 @@ class Recipe < ApplicationRecord
     where.not(id: popular_in_last_3_days.pluck(:id))
   }
 
+  # NOTE: 引数のユーザーが作成したレシピを人気順に並べる
   scope :popular_recipes_by_user, lambda { |user_id|
     left_joins(:favorite_recipes)
       .where(user_id:)
@@ -31,8 +36,14 @@ class Recipe < ApplicationRecord
       .order('COUNT(favorite_recipes.id) DESC')
   }
 
-  scope :published, -> { where(is_draft: false, is_public: true) }
-  scope :new_arrival_recipes_by_user, ->(user_id) { published.where(user_id:).order(created_at: :desc) }
+  # NOTE: 引数のユーザーが作成したレシピを新着順に並べる
+  scope :new_arrival_recipes_by_user, lambda { |user_id|
+    where(user_id:).order(created_at: :desc)
+  }
+
+  scope :by_chef, lambda {
+    joins(:user).where(users: { user_type: 'chef' })
+  }
 
   delegate :count, to: :favoriters, prefix: true
   delegate :user_type, to: :user
