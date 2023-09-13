@@ -1,6 +1,6 @@
 class Api::V1::ChefsController < Api::V1::ApplicationBaseController
   def index
-    @chefs = User.by_type_chef
+    @chefs = User.by_type_chef.order_by_name
   end
 
   def show
