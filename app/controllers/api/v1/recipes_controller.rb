@@ -22,6 +22,15 @@ class Api::V1::RecipesController < Api::V1::ApplicationBaseController
     # @user_new_arrival_recipes = Recipe.without_draft.new_arrival_recipes_by_user(params[:id])
   end
 
+  def search
+    keyword = params[:keyword]
+
+    raise ActionController::ParameterMissing, 'keyword parameter is missing' if keyword.nil?
+
+    page = params[:page].to_i.zero? ? 1 : params[:page].to_i
+    @recipes = Recipe.by_chef.published.ordered_by_recent_favorites_and_others.search_by_name(keyword).paginate(page)
+  end
+
   private
 
   def recipe_params
