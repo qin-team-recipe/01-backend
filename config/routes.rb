@@ -17,7 +17,11 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :chefs, only: %i[index show]
+      resources :chefs, only: %i[index show] do
+        collection do
+          get :search
+        end
+      end
     end
   end
 end
