@@ -35,7 +35,8 @@ class User < ApplicationRecord
   }
 
   def follow!(other_user)
-    raise ArgumentError if other_user == self
+    raise ArgumentError, '自身はフォローできません' if other_user == self
+    raise ArgumentError, '一般シェフはフォローできません' if other_user.user_type != 'chef'
 
     following << other_user
   end
