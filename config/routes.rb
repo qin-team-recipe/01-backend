@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       resources :users do
         resources :cart_lists, only: %i[index]
         resources :my_recipes, only: %i[show edit]
+        resources :favorite_chefs, only: [:create, :destroy], param: :chef_id
 
         member do
           get :popular_recipes, to: 'recipes#user_popular_recipes'
