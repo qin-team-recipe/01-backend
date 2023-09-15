@@ -17,7 +17,7 @@ RSpec.describe 'FavoriteChefs' do
           .to change(Relationship, :count).by(1)
       end
 
-      it 'お気に入りしたシェフのレコードを返却すること' do
+      it 'フォローしたシェフのレコードを返却すること' do
         post api_v1_user_favorite_chefs_path(user_id: user.id, chef_id: chef.id)
 
         expect(response.parsed_body).to include({
@@ -101,6 +101,13 @@ RSpec.describe 'FavoriteChefs' do
 
         it 'お気に入りのシェフがデータベースから削除されること' do
           expect(Relationship.count).to eq(0)
+        end
+
+        it 'フォロー解除したシェフのレコードを返却すること' do
+          expect(response.parsed_body).to include({
+                                                    'status' => 'success',
+                                                    'message' => 'フォローを解除しました'
+                                                  })
         end
       end
     end
