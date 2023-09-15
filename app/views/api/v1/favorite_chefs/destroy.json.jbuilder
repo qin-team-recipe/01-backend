@@ -1,2 +1,2 @@
 json.status 'success'
-json.message '削除しました'
+json.message 'フォローを解除しました'

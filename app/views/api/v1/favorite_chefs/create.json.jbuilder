@@ -1,4 +1,4 @@
 json.status 'success'
-json.message '追加しました'
+json.message 'フォローしました'
 json.user_id @user.id
 json.chef_id @chef.id
