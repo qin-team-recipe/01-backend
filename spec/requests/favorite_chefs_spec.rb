@@ -21,11 +21,11 @@ RSpec.describe 'FavoriteChefs' do
         post api_v1_user_favorite_chefs_path(user_id: user.id, chef_id: chef.id)
 
         expect(response.parsed_body).to include({
-                                                     'status' => 'success',
-                                                     'message' => 'フォローしました',
-                                                     'user_id' => user.id,
-                                                     'chef_id' => chef.id
-                                                   })
+                                                  'status' => 'success',
+                                                  'message' => 'フォローしました',
+                                                  'user_id' => user.id,
+                                                  'chef_id' => chef.id
+                                                })
       end
     end
 
