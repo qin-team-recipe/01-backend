@@ -59,6 +59,17 @@ RSpec.describe User do
         end
       end
     end
+
+    describe '.order_by_name' do
+      let!(:chef_a) { create(:user, name: '岡島拓哉', user_type: 'chef') }
+      let!(:chef_b) { create(:user, name: '上田勇気', user_type: 'chef') }
+      let!(:chef_c) { create(:user, name: 'しまぶー', user_type: 'chef') }
+      let!(:chef_d) { create(:user, name: 'ひふみ', user_type: 'chef') }
+
+      it '名前順に並び替えること' do
+        expect(described_class.order_by_name).to eq([chef_c, chef_d, chef_b, chef_a])
+      end
+    end
   end
 
   describe 'followers.count' do

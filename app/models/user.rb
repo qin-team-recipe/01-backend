@@ -1,5 +1,8 @@
 class User < ApplicationRecord
   authenticates_with_sorcery!
+
+  PER_PAGE = 10
+
   has_many :recipes, dependent: :destroy
   has_many :favorite_recipes, dependent: :destroy
   has_many :cart_lists, dependent: :destroy
@@ -19,6 +22,18 @@ class User < ApplicationRecord
 
   after_create :create_cart_list
 
+  scope :by_type_chef, lambda {
+    where(user_type: 'chef')
+  }
+
+  scope :order_by_name, lambda {
+    order(:name)
+  }
+
+  scope :search_by_name, lambda { |keyword|
+    where('name LIKE ?', "%#{keyword}%")
+  }
+
   def follow!(other_user)
     raise ArgumentError if other_user == self
 
@@ -32,9 +47,10 @@ class User < ApplicationRecord
     follow_relationship.destroy!
   end
 
-  scope :by_type_chef, lambda {
-    where(user_type: 'chef')
-  }
+  def self.paginate(page, per_page = PER_PAGE)
+    offset = (page - 1) * per_page
+    limit(per_page).offset(offset)
+  end
 
   private
 
