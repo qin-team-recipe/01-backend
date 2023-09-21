@@ -1,7 +1,8 @@
 class Api::V1::RecipesController < Api::V1::ApplicationBaseController
   # NOTE: 話題のレシピ一覧
   def index
-    @recipes = Recipe.by_chef.published.ordered_by_recent_favorites_and_others
+    page = params[:page].to_i.zero? ? 1 : params[:page].to_i
+    @recipes = Recipe.by_chef.published.ordered_by_recent_favorites_and_others.paginate(page)
   end
 
   def show
