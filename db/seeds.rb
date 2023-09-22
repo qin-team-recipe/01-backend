@@ -29,8 +29,8 @@
     recipe_id: recipe.id,
     user_id: user.id,
     name: Faker::Lorem.sentence(word_count: 5),
-    position: rand(1..10),
-    own_notes: [true, false].sample
+    position: rand(2..10),
+    own_notes: false
   )
 
   recipe_external_link = RecipeExternalLink.create!(
